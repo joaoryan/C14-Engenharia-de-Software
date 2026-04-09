@@ -51,4 +51,21 @@ jobs:
           name: pacote-build
           path: pacote-distribuivel.zip
 
+  deploy:
+    needs: [test, build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Disparar Deploy no Render via Webhook
+        env:
+          DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$DEPLOY_HOOK" ]; then
+            echo "Erro: Secret RENDER_DEPLOY_HOOK não configurada no GitHub."
+            exit 1
+          fi
+          echo "Testes e Build passaram! Disparando deploy no Render..."
+          # O curl faz uma requisição POST invisível para a URL do Render
+          curl -X POST $DEPLOY_HOOK
+          echo "Sinal de deploy enviado com sucesso ao Render!"
+
  
