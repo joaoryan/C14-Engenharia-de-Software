@@ -11,4 +11,4 @@ Executar teste
 pytest
 ```
 
-Testando o pipeline 2
+Testando o pipeline 3
