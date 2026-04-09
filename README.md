@@ -10,3 +10,5 @@ Executar teste
 ```
 pytest
 ```
+
+Testando o pipeline
