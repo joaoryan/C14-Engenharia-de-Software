@@ -11,4 +11,4 @@ client = TestClient(app)
 def test_read_main_success():
     response = client.get("/")
     assert response.status_code == 200
-    assert response.json() == {"status": "Sistema de Dieta Ativo"}
+    assert response.json() == {"message": "Bem-vindo à API do Diet"}
