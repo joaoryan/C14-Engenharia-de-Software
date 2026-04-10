@@ -67,5 +67,20 @@ jobs:
           # O curl faz uma requisição POST invisível para a URL do Render
           curl -X POST $DEPLOY_HOOK
           echo "Sinal de deploy enviado com sucesso ao Render!"
+  
+  notify:
+    needs: [test, build, deploy]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
 
- 
+      - name: Rodar script de notify
+        env:
+          EMAIL_USER: ${{ secrets.EMAIL_USER }}
+          EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+          EMAIL_RECEIVER: ${{ vars.EMAIL_RECEIVER }}
+          TEST_STATUS: ${{ needs.test.result }}
+          BUILD_STATUS: ${{ needs.build.result }}
+        run: python notify.py
