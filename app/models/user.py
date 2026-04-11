@@ -1,5 +1,8 @@
 from sqlalchemy import Column, Integer, String
+from sqlalchemy.orm import relationship
+
 from app.db.base import Base
+
 
 class User(Base):
     __tablename__ = "users"
@@ -8,3 +11,9 @@ class User(Base):
     username = Column(String, unique=True, index=True, nullable=False)
     email = Column(String, unique=True, index=True, nullable=False)
     password = Column(String, nullable=False)
+
+    diets = relationship(
+        "Diet",
+        back_populates="user",
+        cascade="all, delete-orphan"
+    )
